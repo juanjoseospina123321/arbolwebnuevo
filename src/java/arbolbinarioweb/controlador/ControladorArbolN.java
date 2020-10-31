@@ -177,7 +177,7 @@ public class ControladorArbolN implements Serializable {
     private void pintarArbol(NodoN reco,DefaultDiagramModel model, Element padre, int x, int y) {
                
         if (reco != null) {
-            Element elementHijo = new Element(reco.getDato().getIdEmpleado()+ " " + reco.getDato().getIdEmpleado());
+            Element elementHijo = new Element(reco.getDato().getIdEmpleado()+ " " + reco.getDato().getNombreEmpleado());
             
             elementHijo.setX(String.valueOf(x)+"em");
             elementHijo.setY(String.valueOf(y)+"em");
