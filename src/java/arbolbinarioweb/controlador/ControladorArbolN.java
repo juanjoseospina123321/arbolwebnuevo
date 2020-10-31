@@ -1,0 +1,197 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package arbolbinarioweb.controlador;
+
+import arbolbinarioweb.controlador.util.CelularExcepcion;
+
+import arbolbinarioweb.controlador.Empleado;
+import arbolbinarioweb.controlador.util.JsfUtil;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import javax.annotation.PostConstruct;
+import javax.enterprise.context.SessionScoped;
+import javax.faces.context.FacesContext;
+import javax.inject.Named;
+import org.primefaces.model.diagram.Connection;
+import org.primefaces.model.diagram.DefaultDiagramModel;
+import org.primefaces.model.diagram.Element;
+import org.primefaces.model.diagram.connector.StraightConnector;
+import org.primefaces.model.diagram.endpoint.DotEndPoint;
+import org.primefaces.model.diagram.endpoint.EndPointAnchor;
+
+/**
+ *
+ * @author Juan Jose Ospina B
+ */
+@SessionScoped
+@Named(value = "arbolnarioControlador")
+public class ControladorArbolN implements Serializable {
+
+    private ArbolN arbol = new ArbolN();
+    private Empleado empleado = new Empleado();
+  private List<Empleado> lista;
+    private boolean verRegistrar;
+    private DefaultDiagramModel model;
+    private String padre;
+
+
+    public ControladorArbolN() {
+    }
+
+   
+      public List<Empleado> getListaEmpleado() {
+        return lista;
+    }
+
+    public void setListaCelulares(List<Empleado> listaEmpleados) {
+        this.lista = listaEmpleados;
+    }
+
+    public String getPadre() {
+        return padre;
+    }
+
+    public void setPadre(String padre) {
+        this.padre = padre;
+    }
+
+    public ArbolN getArbol() {
+        return arbol;
+    }
+
+    public void setArbol(ArbolN arbol) {
+        this.arbol = arbol;
+    }
+
+    public Empleado getEmpleado() {
+        return empleado;
+    }
+
+    public void setCelular(Empleado celular) {
+        this.empleado = celular;
+    }
+
+    public boolean isVerRegistrar() {
+        return verRegistrar;
+    }
+
+    public void setVerRegistrar(boolean verRegistrar) {
+        this.verRegistrar = verRegistrar;
+    }
+
+    public DefaultDiagramModel getModel() {
+        return model;
+    }
+
+    public void setModel(DefaultDiagramModel model) {
+        this.model = model;
+    }
+    
+     @PostConstruct
+    public void inicializar() {
+       
+        verRegistrar = false;
+        
+      
+        pintarArbol();
+    }
+
+ 
+ 
+     public void pintarArbol()
+    {
+        
+        model = new DefaultDiagramModel();
+        model.setMaxConnections(-1);
+        model.setConnectionsDetachable(false);
+        StraightConnector connector = new StraightConnector();
+        connector.setPaintStyle("{strokeStyle:'#404a4e', lineWidth:2}");
+        connector.setHoverPaintStyle("{strokeStyle:'#20282b'}");
+        model.setDefaultConnector(connector);
+        pintarArbol(arbol.getRaiz(), model, null, 42, 0);
+        
+    }
+    
+
+    private void pintarArbol(NodoN reco,DefaultDiagramModel model, Element padre, int x, int y) {
+               
+        if (reco != null) {
+            Element elementHijo = new Element(reco.getDato().getIdEmpleado() + " " + reco.getDato().getIdEmpleado());
+            
+            elementHijo.setX(String.valueOf(x)+"em");
+            elementHijo.setY(String.valueOf(y)+"em");
+            //elementHijo.setId(reco.getDato().getNroIdentificacion());
+            
+            if(padre!=null)
+            {
+                elementHijo.addEndPoint(new DotEndPoint(EndPointAnchor.TOP));
+                DotEndPoint conectorPadre=new DotEndPoint(EndPointAnchor.BOTTOM);
+                padre.addEndPoint(conectorPadre);                
+                model.connect(new Connection(conectorPadre, elementHijo.getEndPoints().get(0)));        
+                
+            }    
+            
+            model.addElement(elementHijo);
+            for(NodoN hijo: reco.getHijos())
+            {
+                pintarArbol(hijo,model, elementHijo,x-10,y+5);
+                x += 10;                
+            }
+        }
+    }
+    
+
+    public void guardarEmpleado()
+    {
+        try {
+            arbol.adicionarNodo(empleado, padre);
+            empleado= new Empleado();
+            verRegistrar= false;
+            pintarArbol();
+        } catch (CelularExcepcion ex) {
+            JsfUtil.addErrorMessage(ex.getMessage());
+        }
+    }
+    
+    
+      public void onClickRight() {
+        String id = FacesContext.getCurrentInstance().getExternalContext()
+                .getRequestParameterMap().get("elementId");
+
+        infanteSeleccionado = id.replaceAll("frmInfantesAbb:diagrama-", "");
+
+    }
+
+    private String infanteSeleccionado = "";
+
+//    public void eliminarInfanteMenuContext() {
+//        
+//        
+//        if (arbol.borrarInfante(infanteSeleccionado)!=null) {
+//            pintarArbol();
+//            JsfUtil.addSuccessMessage("Eliminado con éxito");
+//        } else {
+//            JsfUtil.addErrorMessage("No pudo eliminarse, comuníquese con el administrador ");
+//        }
+//    }
+
+    
+      public void habilitarVerRegistrar()
+    {
+        verRegistrar= true;
+    }
+    
+    public void deshabilitarVerRegistrar()
+    {
+        verRegistrar = false;
+    }
+    
+}
+    
+    
+   
+

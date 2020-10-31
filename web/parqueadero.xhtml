@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./templatemain.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">    
+
+    <ui:define name="content"> 
+
+        <p:growl id="grwlErrores"/>
+         
+        <h:form>
+            <p:panel header="bienvenido al sistema de gestion de empleados del parqueadero">
+                
+                
+                
+                
+                <center>
+                <h:form>
+                <p:panel header="registro de empleados" >
+                    <p:outputLabel value="nombre del empleado: "/>
+                <p:inputText required="true" />
+                    <br/>
+                 <p:outputLabel value="ID del empleado: "/>
+                <p:inputText required="true" />
+                 <br/>
+                <p:outputLabel value="sueldo del empleado: "/>
+                <p:inputText required="true" />
+                 <br/>
+                <p:outputLabel value="id jefe del empleado: "/>
+                <p:inputText required="true" />
+                    <br/>
+                    <p:commandButton value="registrar empleado"/> 
+                    
+                </p:panel>
+                 
+                </h:form>
+                </center>
+            </p:panel>
+            
+        </h:form>
+        <h:form>
+            <p:panel header="organigrama, por orden de gerarquia"/>
+        <p:diagram id="pnlArbol"  style="height:250px" styleClass="ui-widget-content" />
+        </h:form>
+    </ui:define>
+
+</ui:composition>
