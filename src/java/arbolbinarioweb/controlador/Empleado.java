@@ -20,8 +20,11 @@ public class Empleado implements Serializable {
     public Empleado() {
     }
 
+   Empleado(String cadena) {
+    }
+
     public Empleado(String idEmpleado, String NombreEmpleado, double SueldoEmpleado) {
-    
+ 
         this.idEmpleado = idEmpleado;
         this.NombreEmpleado = NombreEmpleado;
         this.SueldoEmpleado = SueldoEmpleado;
@@ -50,6 +53,7 @@ public class Empleado implements Serializable {
     public void setSueldoEmpleado(double SueldoEmpleado) {
         this.SueldoEmpleado = SueldoEmpleado;
     }
+
   
 
    

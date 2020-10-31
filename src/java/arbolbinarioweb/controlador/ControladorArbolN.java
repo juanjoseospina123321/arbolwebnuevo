@@ -5,9 +5,10 @@
  */
 package arbolbinarioweb.controlador;
 
+
 import arbolbinarioweb.controlador.util.CelularExcepcion;
 
-import arbolbinarioweb.controlador.Empleado;
+import arbolbinarioweb.controlador.*;
 import arbolbinarioweb.controlador.util.JsfUtil;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -16,6 +17,7 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
+
 import org.primefaces.model.diagram.Connection;
 import org.primefaces.model.diagram.DefaultDiagramModel;
 import org.primefaces.model.diagram.Element;
@@ -37,7 +39,24 @@ public class ControladorArbolN implements Serializable {
     private boolean verRegistrar;
     private DefaultDiagramModel model;
     private String padre;
+    private String textoHeader;
 
+    public String getTextoHeader() {
+        return textoHeader;
+    }
+
+    public void setTextoHeader(String textoHeader) {
+        this.textoHeader = textoHeader;
+    }
+    
+    
+@PostConstruct
+    private void inicializar()
+    {
+        arbol = new ArbolN();
+        textoHeader="Arbol n ario";
+        pintarArbol();
+    }
 
     public ControladorArbolN() {
     }
@@ -91,28 +110,19 @@ public class ControladorArbolN implements Serializable {
         this.model = model;
     }
     
-     @PostConstruct
-    public void inicializar() {
-       
-        verRegistrar = false;
-        
-      
-        pintarArbol();
-    }
-
- 
- 
-     public void pintarArbol()
+    
+    
+    public void pintarArbol()
     {
         
         model = new DefaultDiagramModel();
         model.setMaxConnections(-1);
         model.setConnectionsDetachable(false);
         StraightConnector connector = new StraightConnector();
-        connector.setPaintStyle("{strokeStyle:'#404a4e', lineWidth:2}");
+        connector.setPaintStyle("{strokeStyle:'#404a4e', lineWidth:6}");
         connector.setHoverPaintStyle("{strokeStyle:'#20282b'}");
         model.setDefaultConnector(connector);
-        pintarArbol(arbol.getRaiz(), model, null, 42, 0);
+        pintarArbol(arbol.getRaiz(), model, null, 50, 0);
         
     }
     
@@ -120,13 +130,12 @@ public class ControladorArbolN implements Serializable {
     private void pintarArbol(NodoN reco,DefaultDiagramModel model, Element padre, int x, int y) {
                
         if (reco != null) {
-            Element elementHijo = new Element(reco.getDato().getIdEmpleado() + " " + reco.getDato().getIdEmpleado());
+            Element elementHijo = new Element(reco.getDato().getIdEmpleado()+ " " + reco.getDato().getIdEmpleado());
             
             elementHijo.setX(String.valueOf(x)+"em");
             elementHijo.setY(String.valueOf(y)+"em");
-            //elementHijo.setId(reco.getDato().getNroIdentificacion());
-            
-            if(padre!=null)
+           
+             if(padre==null)
             {
                 elementHijo.addEndPoint(new DotEndPoint(EndPointAnchor.TOP));
                 DotEndPoint conectorPadre=new DotEndPoint(EndPointAnchor.BOTTOM);
@@ -134,6 +143,7 @@ public class ControladorArbolN implements Serializable {
                 model.connect(new Connection(conectorPadre, elementHijo.getEndPoints().get(0)));        
                 
             }    
+           
             
             model.addElement(elementHijo);
             for(NodoN hijo: reco.getHijos())
@@ -143,6 +153,74 @@ public class ControladorArbolN implements Serializable {
             }
         }
     }
+
+ 
+ 
+//     public void pintarArbol()
+//    {
+//        
+//        model = new DefaultDiagramModel();
+//        model.setMaxConnections(-1);
+//        model.setConnectionsDetachable(false);
+//        StraightConnector connector = new StraightConnector();
+//        connector.setPaintStyle("{strokeStyle:'#404a4e', lineWidth:2}");
+//        connector.setHoverPaintStyle("{strokeStyle:'#20282b'}");
+//        model.setDefaultConnector(connector);
+//        pintarArbol(arbol.getRaiz(), model, null, 42, 0);
+//        
+//    }
+    
+
+//    private void pintarArbol(NodoN reco,DefaultDiagramModel model, Element padre, int x, int y) {
+//               
+//        if (reco != null) {
+//            Element elementHijo = new Element(reco.getDato().getIdEmpleado() + " " + reco.getDato().getIdEmpleado());
+//            
+//            elementHijo.setX(String.valueOf(x)+"em");
+//            elementHijo.setY(String.valueOf(y)+"em");
+//            elementHijo.setId(reco.getDato().getIdEmpleado());
+//            
+////            if(padre!=null)
+////            {
+//                elementHijo.addEndPoint(new DotEndPoint(EndPointAnchor.TOP));
+//                DotEndPoint conectorPadre=new DotEndPoint(EndPointAnchor.BOTTOM);
+//                padre.addEndPoint(conectorPadre);                
+//                model.connect(new Connection(conectorPadre, elementHijo.getEndPoints().get(0)));        
+//                
+////            }    
+//            
+//            model.addElement(elementHijo);
+//            for(NodoN hijo: reco.getHijos())
+//            {
+//                pintarArbol(hijo,model, elementHijo,x-10,y+5);
+//                x += 10;                
+//            }
+//        }
+//    }
+     
+//     private void pintarArbol(Nodo reco, DefaultDiagramModel model, Element padre, int x, int y) {
+//
+//        if (reco != null) {
+//            Element elementHijo = new Element(reco.getDato().getSuma());
+//            elementHijo.setId(String.valueOf(reco.getDato().getNumero()));
+//
+//            elementHijo.setX(String.valueOf(x) + "em");
+//            elementHijo.setY(String.valueOf(y) + "em");
+//
+//            if (padre != null) {
+//                elementHijo.addEndPoint(new DotEndPoint(EndPointAnchor.TOP));
+//                DotEndPoint conectorPadre = new DotEndPoint(EndPointAnchor.BOTTOM);
+//                padre.addEndPoint(conectorPadre);
+//                model.connect(new Connection(conectorPadre, elementHijo.getEndPoints().get(0)));
+//
+//            }
+//
+//            model.addElement(elementHijo);
+//
+//            pintarArbol(reco.getIzquierda(), model, elementHijo, x - 10, y + 5);
+//            pintarArbol(reco.getDerecha(), model, elementHijo, x + 10, y + 5);
+//        }
+//    }
     
 
     public void guardarEmpleado()

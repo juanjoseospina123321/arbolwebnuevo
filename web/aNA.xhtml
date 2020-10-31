@@ -10,8 +10,9 @@
 
         <p:growl id="grwlErrores"/>
         
-        <p:diagram id="diagrama" value="#{arbolnarioControlador.pintarArbol()}" style="height:400px" /> 
-
+            <p:diagram id="diagrama" value="#{arbolnarioControlador.pintarArbol()}" style="height:400px" /> 
+            
+        
         <h:form>
             <p:panel header="Panel Nuevo Nodo">
                 <p:outputLabel value="ID jefe:"/>
@@ -35,24 +36,11 @@
             </p:panel>
         </h:form>
         
-        <h:form>
-            <p:panel header="muestra de datos">
-                
-                <h:panelGrid columns="2">
-                            <p:outputLabel value=" "/>
-                            <p:outputLabel value="#{arbolnarioControlador.pintarArbol()}"/>               
-                            
-                 
-                        </h:panelGrid>
-                
-            </p:panel>
-            
-            
-        </h:form>
+       
         
         
-
-        <p:diagram id="pnlArbolTerminados" value="#{arbolBinarioControlador.modelArbol2}" style="height:400px" styleClass="ui-widget-content" />
+        
+        
 
     </ui:define>
 
