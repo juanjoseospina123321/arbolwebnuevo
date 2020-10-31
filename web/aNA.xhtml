@@ -10,7 +10,8 @@
 
         <p:growl id="grwlErrores"/>
         
-            <p:diagram id="diagrama" value="#{arbolnarioControlador.pintarArbol()}" style="height:400px" /> 
+        
+            <p:diagram id="diagrama" value="#{arbolnarioControlador.model}" style="height:400px" /> 
             
         
         <h:form>
@@ -30,10 +31,12 @@
                 <br/>
                 <p:commandButton ajax="false"  value="Agregar" action="#{arbolnarioControlador.guardarEmpleado()}"
                                  update="@all" />
+               
                 
 
                 
             </p:panel>
+            <p:diagram id="pnlArbolTerminados" value="#{arbolnarioControlador.modelArbol2}" style="height:400px" styleClass="ui-widget-content" />
         </h:form>
         
        
