@@ -16,6 +16,8 @@
         
         <h:form>
             <p:panel header="Panel Nuevo Nodo">
+                
+               <br/>
                 <p:outputLabel value="ID jefe:"/>
                 <p:inputText required="true" value="#{arbolnarioControlador.padre}"/>
                 <br/>
@@ -31,7 +33,8 @@
                 <br/>
                 <p:commandButton ajax="false"  value="Agregar" action="#{arbolnarioControlador.guardarEmpleado()}"
                                  update="@all" />
-               
+              <br/>
+              <p:outputLabel value="Los Precios suman: #{arbolnarioControlador.arbol.sumaPrecios}" />
                 
 
                 

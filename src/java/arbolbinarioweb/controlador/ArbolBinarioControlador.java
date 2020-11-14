@@ -352,8 +352,7 @@ public class ArbolBinarioControlador implements Serializable {
         
         return "abbsuma";
     }
-    
-    
+
     
 
 }
